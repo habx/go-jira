@@ -50,8 +50,8 @@ type userSearchF func(userSearch) userSearch
 // Get gets user info from JIRA
 //
 // JIRA API docs: https://docs.atlassian.com/jira/REST/cloud/#api/2/user-getUser
-func (s *UserService) Get(username string) (*User, *Response, error) {
-	apiEndpoint := fmt.Sprintf("/rest/api/2/user?username=%s", username)
+func (s *UserService) Get(accountId string) (*User, *Response, error) {
+	apiEndpoint := fmt.Sprintf("/rest/api/2/user?accountId=%s", accountId)
 	req, err := s.client.NewRequest("GET", apiEndpoint, nil)
 	if err != nil {
 		return nil, nil, err

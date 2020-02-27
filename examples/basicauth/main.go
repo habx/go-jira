@@ -35,7 +35,7 @@ func main() {
 		return
 	}
 
-	u, _, err := client.User.Get("admin")
+	u, _, err := client.User.Get("000000000000000000000000")
 
 	if err != nil {
 		fmt.Printf("\nerror: %v\n", err)

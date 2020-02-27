@@ -1501,14 +1501,14 @@ func TestIssueService_GetWatchers(t *testing.T) {
 		testMethod(t, r, "GET")
 		testRequestURL(t, r, "/rest/api/2/issue/10002/watchers")
 
-		fmt.Fprint(w, `{"self":"http://www.example.com/jira/rest/api/2/issue/EX-1/watchers","isWatching":false,"watchCount":1,"watchers":[{"self":"http://www.example.com/jira/rest/api/2/user?username=fred","name":"fred","displayName":"Fred F. User","active":false}]}`)
+		fmt.Fprint(w, `{"self":"http://www.example.com/jira/rest/api/2/issue/EX-1/watchers","isWatching":false,"watchCount":1,"watchers":[{"self":"http://www.example.com/jira/rest/api/2/user?username=fred","name":"fred","accountId": "000000000000000000000000","displayName":"Fred F. User","active":false}]}`)
 	})
 
 	testMux.HandleFunc("/rest/api/2/user", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "GET")
-		testRequestURL(t, r, "/rest/api/2/user?username=fred")
+		testRequestURL(t, r, "/rest/api/2/user?accountId=000000000000000000000000")
 
-		fmt.Fprint(w, `{"self":"http://www.example.com/jira/rest/api/2/user?username=fred","key":"fred",
+		fmt.Fprint(w, `{"self":"http://www.example.com/jira/rest/api/2/user?username=fred","key":"fred","accountId": "000000000000000000000000",
         "name":"fred","emailAddress":"fred@example.com","avatarUrls":{"48x48":"http://www.example.com/jira/secure/useravatar?size=large&ownerId=fred",
         "24x24":"http://www.example.com/jira/secure/useravatar?size=small&ownerId=fred","16x16":"http://www.example.com/jira/secure/useravatar?size=xsmall&ownerId=fred",
         "32x32":"http://www.example.com/jira/secure/useravatar?size=medium&ownerId=fred"},"displayName":"Fred F. User","active":true,"timeZone":"Australia/Sydney","groups":{"size":3,"items":[
@@ -1530,8 +1530,8 @@ func TestIssueService_GetWatchers(t *testing.T) {
 		t.Errorf("Expected 1 watcher, got: %d", len(*watchers))
 		return
 	}
-	if (*watchers)[0].Name != "fred" {
-		t.Error("Expected watcher name fred")
+	if (*watchers)[0].AccountID != "000000000000000000000000" {
+		t.Error("Expected watcher accountId 000000000000000000000000")
 	}
 }
 
